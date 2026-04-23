@@ -64,3 +64,41 @@ Claude Code plugin commands are slash commands that run inside the Claude Code R
 - `/plugin marketplace add <url>` — Add a plugin marketplace.
 - `/plugin install <name>` — Install a plugin.
 - `/plugin list` — List installed plugins.
+
+## CLI Tools
+
+### ant (Anthropic CLI)
+
+The `ant` CLI provides direct access to the Claude API from the terminal. Installed via Homebrew:
+```
+brew install anthropics/tap/ant
+xattr -d com.apple.quarantine "$(brew --prefix)/bin/ant"   # macOS only
+```
+
+Authentication is via the `ANTHROPIC_API_KEY` environment variable. Commands follow a `resource action` pattern:
+```
+ant messages create --model claude-opus-4-6 --max-tokens 1024 --message '{role: user, content: "Hello"}'
+ant models list
+ant beta:<resource> <action>   # beta resources auto-send the anthropic-beta header
+```
+
+Useful flags: `--transform` (GJSON path to reshape output), `--format` (json/yaml/jsonl/pretty), `--debug` (full HTTP trace).
+
+### opencli (OpenCLI)
+
+Turns websites, Electron apps, and local tools into deterministic CLI interfaces. Installed via npm:
+```
+npm install -g @jackwener/opencli
+```
+
+Requires Node.js >= 21. Browser-backed commands require the Browser Bridge Chrome extension (download from GitHub Releases, load unpacked in `chrome://extensions`).
+
+Basic usage:
+```
+opencli list                          # List all available commands
+opencli doctor                        # Diagnose connectivity
+opencli hackernews top --limit 5      # Public API (no browser needed)
+opencli bilibili hot --limit 5        # Browser command (needs extension)
+```
+
+Output formats: `--format json`, `yaml`, `csv`, `md`, `table`.
